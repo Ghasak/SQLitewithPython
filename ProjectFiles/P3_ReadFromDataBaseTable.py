@@ -41,14 +41,31 @@ def dynamic_data_entry():
               (unix, date, keyword,value))
     conn.commit()
 
-create_table()
+
+#create_table()
+
+
+# for i in range(10):
+#     dynamic_data_entry()
+#     time.sleep(1) # just to make our datestamp goes for a second to get a new entry, this just for the tutorial
+
+
 #data_entry()
+# c.close()
+# conn.close(0)
 
-for i in range(10):
-    dynamic_data_entry()
-    time.sleep(1) # just to make our datestamp goes for a second to get a new entry, this just for the tutorial
+# Adding here the code of P3-
+
+def read_from_db():
+    c.execute("SELECT keyword, unix, value, datestamp FROM stuffToPlot WHERE unix > 1559550811") #AND keyword= 'Python'
+    #data = c.fetchall()
+    #print(data)
+    for row_no, row in enumerate(c.fetchall()):
+        #print(row_no,row)
+        print(row_no, row[0])
 
 
+
+read_from_db()
 c.close()
 conn.close()
-

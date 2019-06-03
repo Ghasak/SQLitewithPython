@@ -82,4 +82,93 @@ you can change the order of the table in your SQL, you can level a value empty f
 You have to be careful to add **conn.colse()** and **c.colse()** only when you are not running input values several times in a loop or something that ended up in open and close the connection everytime you are working on your data. Therefore, we will try to make this only once to pen and close the connection once, **ONE** when you open the database and inserting your patch, **SECOND** then close your connection after you finish working with the current database. Also keep in mind, **conn.commit** is to commit (execute) your statement that you wrote in SQL.
 
 
-# P3-
+# P3- Read from (SELECT) DataBase table
+
+Now we will read data from a an existed database. You should not name your **file.py** file with the same name of the modular that you are working on. otherwise, when you use **IMPORT modular** it will cause problems. Now we will use the command **SELECT** which is for importing data from a database. If you use **(*)** you will select basically eveything form this database. **SELECT** is similar to selecting in computer. what we need is to copy the the cells that we selected using the command **fetchall**.
+
+![](./Output_images/P3-1.png)
+```
+def read_from_db():
+    c.execute("SELECT * FROM stuffToPlot")
+    data = c.fetchall()
+    print(data)
+```
+
+Then Later I have added the **enumerate** method to see how many rows that we have created so far:
+
+```
+def read_from_db():
+    c.execute("SELECT * FROM stuffToPlot")
+    #data = c.fetchall()
+    #print(data)
+    for row_no, row in enumerate(c.fetchall()):
+        print(row_no,row)
+```
+![](./Output_images/P3-2.png)
+
+## NOTE-1
+The values here we have created should reflect the efficiency of our database. Thus, we don't need very big numbers in database. This database should be efficient.
+
+## NOTE-2
+**SELECT** is so powerful that we need to address any selection through adding some logic. Such as:
+
+```
+def read_from_db():
+    c.execute("SELECT * FROM stuffToPlot WHERE value < 3")
+    #data = c.fetchall()
+    #print(data)
+    for row_no, row in enumerate(c.fetchall()):
+        print(row_no,row)
+
+
+```
+we have added a logic to select only the values in the column **value** to be less than (3).
+
+Or adding more logic
+
+```
+c.execute("SELECT * FROM stuffToPlot WHERE value == 3 AND keyword= 'Python'")
+```
+
+Or,
+
+```
+def read_from_db():
+    c.execute("SELECT * FROM stuffToPlot WHERE unix > 1559550811") #AND keyword= 'Python'
+    #data = c.fetchall()
+    #print(data)
+    for row_no, row in enumerate(c.fetchall()):
+        print(row_no,row)
+```
+![](./Output_images/P3-3.png)
+
+To get only a specific element in your dataset use:
+here, we will get the first column of our database
+
+```
+def read_from_db():
+    c.execute("SELECT * FROM stuffToPlot WHERE unix > 1559550811") #AND keyword= 'Python'
+    #data = c.fetchall()
+    #print(data)
+    for row_no, row in enumerate(c.fetchall()):
+        #print(row_no,row)
+        print(row_no, row[0])
+
+```
+
+Or instead of selecting everyting, you can select only some specific columns in your current database such as.
+
+```
+def read_from_db():
+    c.execute("SELECT keyword, unix, value, datestamp FROM stuffToPlot WHERE unix > 1559550811") #AND keyword= 'Python'
+    #data = c.fetchall()
+    #print(data)
+    for row_no, row in enumerate(c.fetchall()):
+        #print(row_no,row)
+        print(row_no, row[0])
+
+```
+
+
+
+
