@@ -1,5 +1,8 @@
 import sqlite3
 import os
+import time
+import datetime
+import random
 
 
 ResourceDir = os.getcwd()
@@ -26,9 +29,26 @@ def data_entry():
 
 
 
+# Adding here the code of P2-
+
+def dynamic_data_entry():
+    unix = time.time()
+    date = str(datetime.datetime.fromtimestamp(unix).strftime('%Y-%m-%d %H:%M:%S'))
+
+    keyword = 'Python'
+    value = random.randrange(0,10)
+    c.execute("INSERT INTO stuffToPlot (unix, datestamp, keyword, value) VALUES (?,?,?,?)",
+              (unix, date, keyword,value))
+    conn.commit()
+
 create_table()
-data_entry()
+#data_entry()
+
+for i in range(10):
+    dynamic_data_entry()
+    time.sleep(1) # just to make our datestamp goes for a second to get a new entry, this just for the tutorial
 
 
-
+c.close()
+conn.close()
 
