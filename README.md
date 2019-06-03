@@ -3,6 +3,26 @@
 
 Everything you need to know about SQLite is located here.
 We will start with the following syllabus. SQLite is a lighter version of SQL, we can create a database without a server.
+# To run a script file in this project
+Use the following:
+
+```
+python ProjectFiles/PX_CreatDataBaseTable.py
+where(X) is the number of the file script.
+```
+* When you call any function, you need to use P5 because the script there is completed and follow the sequence of writing each function with the sequence of writing.
+
+```
+create_table()
+#read_from_db()
+Input_values()
+#graph_data()
+Update_DataBase()
+Del_DataBase()
+c.close()
+conn.close()
+```
+
 
 # P1- Creating a Database, table and inserting:
 
@@ -169,6 +189,59 @@ def read_from_db():
 
 ```
 
+# P4- Graph from database table example
+We will graph from a table, first we installed the matplotlib library. The function to give us the graph is
+
+```
+def graph_data():
+    data = c.execute("SELECT unix, value FROM stuffToPlot")
+    dates = []
+    values = []
+    for row in c.fetchall(): #Or you can use data
+        #print(row[0]) # that should give us the UNIX column data
+        #dates.append()
+        #print(datetime.datetime.fromtimestamp(row[0])) #Same as before but better style format.
+        dates.append(datetime.datetime.fromtimestamp(row[0]))
+        values.append(row[1])
+
+    plt.plot_date(dates,values, '-')
+    plt.show()
 
 
+```
 
+![](./Output_images/P4-1.png)
+
+# P5- Update and Delete entries to your dataset.
+Its very important to remember that to keep ** a backup** always when you use **DELETE** or **UPDATE** as no undo or ctrl-z to recover the changes.
+
+## To update values for your current database
+Remember that your database once its being changed, you cant do this operation again. as you are already setting a new value for your database.
+```
+def Update_DataBase():
+        print(20*"="+" -UPDATE FUNCTION- "+20*"=")
+        c.execute("SELECT * FROM stuffToPlot")
+        [print(row) for row in c.fetchall()]
+        c.execute("UPDATE stuffToPlot SET value = 99 WHERE value = 8 OR value =5 OR value = 2 OR value =6 OR value =9")
+        conn.commit() #that means you saved your data
+        print(50*"=")
+        c.execute("SELECT * FROM stuffToPlot")
+        [print(row) for row in c.fetchall()]
+
+```
+
+## To delete some values
+
+```
+
+def Del_DataBase():
+        print(20*"="+" -DEL FUNCTION- "+20*"=")
+        c.execute("SELECT * FROM stuffToPlot")
+        [print(row) for row in c.fetchall()]
+        c.execute("DELETE FROM stuffToPlot WHERE value = 99") # In MySQL there is an option called limit= xx where you can limit your command here.
+        conn.commit()
+        print(50*"=")
+        c.execute("SELECT * FROM stuffToPlot")
+        [print(row) for row in c.fetchall()]
+```
+![](./Output_images/P5-1.png)
